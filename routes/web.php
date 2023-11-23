@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\History\HistoryController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +27,7 @@ Route::get('/notice-board', function (){
 
 Auth::routes();
 
-Route::prefix('admin')->group(function () {
+Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('admin');
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
@@ -35,6 +36,8 @@ Route::prefix('admin')->group(function () {
     Route::post('/histories', [HistoryController::class, 'store'])->name('histories.store');
 
 });
+
+
 
 
 
