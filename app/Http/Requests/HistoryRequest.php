@@ -24,7 +24,8 @@ class HistoryRequest extends FormRequest
         return [
             'title' => 'required|string',
             'description' => 'required|string',
-            'status' => 'boolean'
+            'status' => 'boolean',
+            'token' => 'string|max:32'
         ];
     }
 }

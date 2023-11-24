@@ -9,6 +9,7 @@ use App\Mail\SendEmail;
 use App\Models\History;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class HistoryController extends Controller
 {
@@ -36,8 +37,7 @@ class HistoryController extends Controller
     public function store(HistoryRequest $request)
     {
         $history = History::query()->create($request->validated());
-        $urlHash = bcrypt($history->id);
-
+        $urlHash = $history->token;
         $data = [
             'url' => route('approved-history', compact('urlHash')),
         ];
@@ -58,12 +58,14 @@ class HistoryController extends Controller
 
     public function approved($urlHash)
     {
+
+        //petqa hamematem ekac tokenn@ bazai tokeni het
         $histories = History::all();
         foreach ($histories as $history) {
-            if (Hash::check($history->id, $urlHash)) {
-                $i = History::query()->find($history->id);
-                dd($i->id);
-            }
+            dump($history);
+            $existingRecord = History::where('token', $history->token)->first();
+            dd($existingRecord, $history->token);
+
         }
     }
 }
