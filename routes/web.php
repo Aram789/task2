@@ -26,7 +26,7 @@ Route::get('/notice-board', function (){
 })->name('notice-board');
 
 
-Route::get('/approved-history/{id}', [HistoryController::class, 'approved'])->name('approved-history');
+Route::get('/approved-history/{urlHash}', [HistoryController::class, 'approved'])->name('approved-history');
 
 Auth::routes();
 

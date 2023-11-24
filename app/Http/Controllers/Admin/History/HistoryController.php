@@ -8,6 +8,7 @@ use App\Jobs\SendEmailJob;
 use App\Mail\SendEmail;
 use App\Models\History;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class HistoryController extends Controller
 {
@@ -34,15 +35,16 @@ class HistoryController extends Controller
      */
     public function store(HistoryRequest $request)
     {
-        $formData = $request->validated();
-        $history = History::query()->create($formData);
-        $id = $history->id;
+        $history = History::query()->create($request->validated());
+        $urlHash = bcrypt($history->id);
 
         $data = [
-            'url' => route('approved-history', compact('id') )
+            'url' => route('approved-history', compact('urlHash')),
         ];
+
         $email = new SendEmail($data);
         SendEmailJob::dispatch($email);
+
         return redirect()->route('histories.index');
     }
 
@@ -54,8 +56,14 @@ class HistoryController extends Controller
         //
     }
 
-    public function approved($id)
+    public function approved($urlHash)
     {
-        dd($id);
+        $histories = History::all();
+        foreach ($histories as $history) {
+            if (Hash::check($history->id, $urlHash)) {
+                $i = History::query()->find($history->id);
+                dd($i->id);
+            }
+        }
     }
 }
