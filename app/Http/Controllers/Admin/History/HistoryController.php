@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin\History;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\HistoryRequest;
+use App\Jobs\SendEmailJob;
+use App\Mail\SendEmail;
 use App\Models\History;
 use Illuminate\Http\Request;
 
@@ -33,9 +35,14 @@ class HistoryController extends Controller
     public function store(HistoryRequest $request)
     {
         $formData = $request->validated();
+        $history = History::query()->create($formData);
+        $id = $history->id;
 
-        History::query()->create($formData);
-
+        $data = [
+            'url' => route('approved-history', compact('id') )
+        ];
+        $email = new SendEmail($data);
+        SendEmailJob::dispatch($email);
         return redirect()->route('histories.index');
     }
 
@@ -47,27 +54,8 @@ class HistoryController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function approved($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        dd($id);
     }
 }

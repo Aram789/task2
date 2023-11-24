@@ -25,6 +25,9 @@ Route::get('/notice-board', function (){
     return 'notice';
 })->name('notice-board');
 
+
+Route::get('/approved-history/{id}', [HistoryController::class, 'approved'])->name('approved-history');
+
 Auth::routes();
 
 Route::middleware(['auth'])->prefix('admin')->group(function () {
