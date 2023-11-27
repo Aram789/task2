@@ -18,7 +18,8 @@ class HistoryController extends Controller
      */
     public function index()
     {
-        $histories = History::query()->paginate(15);
+        $histories = History::query()
+            ->paginate(15);
 
         return view('admin.history.index', compact('histories'));
     }
@@ -36,10 +37,20 @@ class HistoryController extends Controller
      */
     public function store(HistoryRequest $request)
     {
-        $history = History::query()->create($request->validated());
+
+        $request = [
+            'title' => $request->validated()['title'],
+            'description' => $request->validated()['description'],
+            'token' => hash('sha256', Str::random(32))
+        ];
+
+        $history = History::query()
+            ->create($request);
+
         $urlHash = $history->token;
+
         $data = [
-            'url' => route('approved-history', compact('urlHash')),
+            'url' => route('histories.show', compact('urlHash')),
         ];
 
         $email = new SendEmail($data);
@@ -48,24 +59,20 @@ class HistoryController extends Controller
         return redirect()->route('histories.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($urlHash)
     {
-        //
+        $history = History::query()
+            ->where('token', $urlHash)
+            ->first();
+
+        return view('admin.history.show', compact('history'));
     }
 
-    public function approved($urlHash)
+    public function update(History $history)
     {
+        $history->update(['status' => 1]);
 
-        //petqa hamematem ekac tokenn@ bazai tokeni het
-        $histories = History::all();
-        foreach ($histories as $history) {
-            dump($history);
-            $existingRecord = History::where('token', $history->token)->first();
-            dd($existingRecord, $history->token);
+        return view('admin.history.show', compact('history'));
 
-        }
     }
 }

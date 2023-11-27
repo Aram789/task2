@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Admin\History\HistoryController;
 use App\Http\Controllers\Admin\HomeController;
+
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\NoticeController;
 use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -18,15 +20,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/notice-board', function (){
-    return 'notice';
-})->name('notice-board');
+Route::get('/', [NoticeController::class, 'index']);
 
 
-Route::get('/approved-history/{urlHash}', [HistoryController::class, 'approved'])->name('approved-history');
+
+Route::get('/histories/{urlHash}', [HistoryController::class, 'show'])->name('histories.show');
 
 Auth::routes();
 
@@ -37,6 +35,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/histories', [HistoryController::class, 'index'])->name('histories.index');
     Route::get('/histories/create', [HistoryController::class, 'create'])->name('histories.create');
     Route::post('/histories', [HistoryController::class, 'store'])->name('histories.store');
+    Route::put('/histories/{history}', [HistoryController::class, 'update'])->name('histories.update');
 
 });
 

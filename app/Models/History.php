@@ -14,12 +14,4 @@ class History extends Model
        'status',
        'token'
    ];
-    public static function boot(): void
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $model->token = hash('sha256', Str::random(32));
-        });
-    }
 }
