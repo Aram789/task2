@@ -20,7 +20,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [NoticeController::class, 'index']);
+Route::controller(NoticeController::class)->group(function (){
+    Route::get('/', 'index');
+});
+
 
 
 

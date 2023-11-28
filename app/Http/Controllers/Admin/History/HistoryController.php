@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\History;
 
+use App\Events\NoticeEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\HistoryRequest;
 use App\Jobs\SendEmailJob;
@@ -71,6 +72,8 @@ class HistoryController extends Controller
     public function update(History $history)
     {
         $history->update(['status' => 1]);
+
+        broadcast(new NoticeEvent($history));
 
         return view('admin.history.show', compact('history'));
 
