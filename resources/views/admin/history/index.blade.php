@@ -9,12 +9,21 @@
         <div class="timeline d-flex gap-2 p-0">
             @foreach($histories as $history)
                 <div class="timeline-row card p-2">
+                    @if($history->status)
+                        <div class="d-flex justify-content-end">
+                            <div class="status_approved"></div>
+                        </div>
+                    @else
+                        <div class="d-flex justify-content-end">
+                            <div class="status_approved not"></div>
+                        </div>
+                    @endif
                     <div class="timeline-content">
                         <i class="icon-attachment"></i>
                         <p>Title : {{$history->title}}</p>
                         <p>Description : {{$history->description}}</p>
                         <div class="timeline-time">
-                            <small>{{$history->created_at}}</small>
+                            <small style="font-size: 10px">Created: {{$history->created_at}}</small>
                         </div>
                     </div>
                 </div>

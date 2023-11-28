@@ -8,8 +8,7 @@ use App\Http\Requests\HistoryRequest;
 use App\Jobs\SendEmailJob;
 use App\Mail\SendEmail;
 use App\Models\History;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 class HistoryController extends Controller
@@ -20,7 +19,7 @@ class HistoryController extends Controller
     public function index()
     {
         $histories = History::query()
-            ->paginate(15);
+            ->paginate(8);
 
         return view('admin.history.index', compact('histories'));
     }
@@ -38,20 +37,21 @@ class HistoryController extends Controller
      */
     public function store(HistoryRequest $request)
     {
+        $validatedData = $request->validated();
 
-        $request = [
-            'title' => $request->validated()['title'],
-            'description' => $request->validated()['description'],
-            'token' => hash('sha256', Str::random(32))
-        ];
-
-        $history = History::query()
-            ->create($request);
+        $history = History::create([
+            'title' => $validatedData['title'],
+            'description' => $validatedData['description'],
+            'token' => hash('sha256', Str::random(32)),
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
 
         $urlHash = $history->token;
 
         $data = [
             'url' => route('histories.show', compact('urlHash')),
+            'title' => $validatedData['title'],
+            'description' => $validatedData['description'],
         ];
 
         $email = new SendEmail($data);
@@ -71,11 +71,12 @@ class HistoryController extends Controller
 
     public function update(History $history)
     {
+        if ($history->status === 1) {
+            return view('admin.history.show', compact('history'))->with('message', 'The story has already been published');
+        }
         $history->update(['status' => 1]);
 
         broadcast(new NoticeEvent($history));
-
-        return view('admin.history.show', compact('history'));
-
+        return redirect()->route('histories.index');
     }
 }

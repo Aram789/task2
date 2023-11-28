@@ -1,6 +1,6 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -8,49 +8,59 @@
     list-style-type: none;
     text-decoration: none !important;
 }
-#app{
+
+#app {
     display: flex;
     flex-direction: column;
     height: 100vh;
 }
-header{
+
+header {
     position: sticky;
     top: 0;
     z-index: 5;
 }
-main{
+
+main {
     flex: 1;
     background: #efefef;
 }
-.aside{
+
+.aside {
     background: #343a40;
     width: fit-content;
     max-width: 300px;
     transition: width .5s ease-in-out;
 }
-aside.min{
+
+aside.min {
     width: 100px;
     transition: width .5s ease-in-out;
 }
-aside{
+
+aside {
     width: 300px;
     transition: width .5s ease-in-out;
 }
-.mini_sidebar{
+
+.mini_sidebar {
     position: absolute;
     top: 2px;
     right: 8px;
     z-index: 5;
 }
-aside{
+
+aside {
     position: sticky;
     top: 56px;
 }
-footer{
+
+footer {
     position: sticky;
     z-index: 5;
     bottom: 0;
 }
+
 .loader_container {
     display: flex;
     width: 100%;
@@ -83,4 +93,17 @@ footer{
     100% {
         transform: rotate(360deg);
     }
+}
+
+.status_approved {
+    border-radius: 50%;
+    background: #20c997;
+    width: 10px;
+    height: 10px;
+}
+.status_approved.not {
+    border-radius: 50%;
+    background: silver;
+    width: 20px;
+    height: 20px;
 }

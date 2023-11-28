@@ -14,7 +14,7 @@
 
 @if(isset($histories))
     <div class="container py-4">
-        <div class="timeline d-flex gap-2 p-0 flex-wrap justify-content-center">
+        <div class="timeline desktop d-flex gap-2 p-0 flex-wrap justify-content-center">
             @foreach($histories as $history)
                 <div class="timeline-row card p-2">
                     <div class="timeline-content">
@@ -22,7 +22,7 @@
                         <p>Title : {{$history->title}}</p>
                         <p>Description : {{$history->description}}</p>
                         <div class="timeline-time">
-                            <small>{{$history->created_at}}</small>
+                            <small style="font-size: 10px">Created: {{$history->created_at}}</small>
                         </div>
                     </div>
                 </div>
