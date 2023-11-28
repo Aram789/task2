@@ -20,11 +20,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::controller(NoticeController::class)->group(function (){
+Route::controller(NoticeController::class)->group(function () {
     Route::get('/', 'index');
 });
-
-
 
 
 Route::get('/histories/{urlHash}', [HistoryController::class, 'show'])->name('histories.show');
@@ -39,7 +37,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/histories/create', [HistoryController::class, 'create'])->name('histories.create');
     Route::post('/histories', [HistoryController::class, 'store'])->name('histories.store');
     Route::put('/histories/{history}', [HistoryController::class, 'update'])->name('histories.update');
-
+    Route::post('/filter', [HistoryController::class, 'filter'])->name('histories.filter');
 });
 
 

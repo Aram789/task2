@@ -79,4 +79,15 @@ class HistoryController extends Controller
         broadcast(new NoticeEvent($history));
         return redirect()->route('histories.index');
     }
+
+    public function filter(\Illuminate\Http\Request $request)
+    {
+        if ($request->status === 'all') {
+            $histories = History::query()->paginate(8);
+            return $histories;
+        }
+        $histories = History::query()->where('status', $request->status)->paginate(8);
+
+        return $histories;
+    }
 }

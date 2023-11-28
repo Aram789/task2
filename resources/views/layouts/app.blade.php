@@ -116,3 +116,7 @@
 </div>
 </body>
 </html>
+<script type="module">
+    window.historyIndex = '{!!route("histories.filter")!!}'
+</script>
+

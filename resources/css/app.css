@@ -102,8 +102,5 @@ footer {
     height: 10px;
 }
 .status_approved.not {
-    border-radius: 50%;
     background: silver;
-    width: 20px;
-    height: 20px;
 }

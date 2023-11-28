@@ -14,4 +14,6 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('notice', NoticeChannel::class);
+Broadcast::channel('notice', function (){
+    return true;
+});

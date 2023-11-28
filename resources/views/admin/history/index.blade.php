@@ -2,11 +2,15 @@
 
 @section('content')
     @if(!empty($histories))
-        <select class="form-select mb-3 w-25" aria-label="Default select example">
-            <option value="1" name="active" selected>Active</option>
-            <option value="2" name="disabled">Disabled</option>
-        </select>
-        <div class="timeline d-flex gap-2 p-0">
+        <form id="filter_notice">
+            @csrf
+            <select class="form-select mb-3 w-25" aria-label="Default select example" name="active" id="select">
+                <option value="1">Active</option>
+                <option value="0" >Disabled</option>
+                <option value="all" selected>All</option>
+            </select>
+        </form>
+        <div class="timeline timeline_admin d-flex gap-2 p-0">
             @foreach($histories as $history)
                 <div class="timeline-row card p-2">
                     @if($history->status)
@@ -27,7 +31,6 @@
                         </div>
                     </div>
                 </div>
-
             @endforeach
         </div>
         <div class="d-flex justify-content-center my-3">
