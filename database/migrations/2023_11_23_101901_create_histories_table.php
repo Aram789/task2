@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->boolean('status')->default(0);
-            $table->string('token')->nullable();
+            $table->string('token', 32)->unique();
             $table->timestamps();
         });
     }

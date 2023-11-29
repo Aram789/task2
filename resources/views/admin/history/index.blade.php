@@ -2,11 +2,11 @@
 
 @section('content')
     @if(!empty($histories))
-        <form id="filter_notice">
+        <form id="filter_notice" class="p-0">
             @csrf
             <select class="form-select mb-3 w-25" aria-label="Default select example" name="active" id="select">
-                <option value="1">Active</option>
-                <option value="0" >Disabled</option>
+                <option value="1">Published</option>
+                <option value="0" >Unpublished</option>
                 <option value="all" selected>All</option>
             </select>
         </form>

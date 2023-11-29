@@ -8,6 +8,7 @@ use App\Http\Requests\HistoryRequest;
 use App\Jobs\SendEmailJob;
 use App\Mail\SendEmail;
 use App\Models\History;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
@@ -42,7 +43,7 @@ class HistoryController extends Controller
         $history = History::create([
             'title' => $validatedData['title'],
             'description' => $validatedData['description'],
-            'token' => hash('sha256', Str::random(32)),
+            'token' => Str::random(32),
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
@@ -80,14 +81,14 @@ class HistoryController extends Controller
         return redirect()->route('histories.index');
     }
 
-    public function filter(\Illuminate\Http\Request $request)
+    public function filter(Request $request)
     {
-        if ($request->status === 'all') {
-            $histories = History::query()->paginate(8);
-            return $histories;
-        }
-        $histories = History::query()->where('status', $request->status)->paginate(8);
+        $request->validate([
+            'status' => 'in:all,0,1',
+        ]);
 
-        return $histories;
+        $histories = History::filterByStatus($request->status)->paginate(8);
+
+        return response()->json($histories);
     }
 }

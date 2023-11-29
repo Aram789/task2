@@ -25,7 +25,7 @@ class HistoryRequest extends FormRequest
             'title' => 'required|string',
             'description' => 'required|string',
             'status' => 'boolean',
-            'token' => 'string|max:32'
+            'token' => 'string|max:32|unique:histories,token',
         ];
     }
 }

@@ -2,10 +2,8 @@
 
 use App\Http\Controllers\Admin\History\HistoryController;
 use App\Http\Controllers\Admin\HomeController;
-
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\NoticeController;
-use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -20,11 +18,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::controller(NoticeController::class)->group(function () {
-    Route::get('/', 'index');
-});
 
-
+Route::get('/', [NoticeController::class, 'index']);
 Route::get('/histories/{urlHash}', [HistoryController::class, 'show'])->name('histories.show');
 
 Auth::routes();

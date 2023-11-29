@@ -56,7 +56,7 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                   data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                   data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ Auth::user()->name }}
                                 </a>
 
@@ -117,6 +117,6 @@
 </body>
 </html>
 <script type="module">
-    window.historyIndex = '{!!route("histories.filter")!!}'
+    window.historyFilter = '{!!route("histories.filter")!!}'
 </script>
 

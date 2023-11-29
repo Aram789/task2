@@ -9,7 +9,8 @@ $(document).ready(function () {
     Echo.private(`notice`)
         .listen('NoticeEvent', (e) => {
 
-            $('.desktop').append(`<div class="timeline-row card p-2">
+            $('.desktop').append(`
+                <div class="timeline-row card p-2">
                     <div class="timeline-content">
                         <i class="icon-attachment"></i>
                         <p>Title : ${e.data.title}</p>
@@ -28,14 +29,13 @@ $(document).ready(function () {
         $('.timeline').text('')
         axios({
             method: 'post',
-            url: window.historyIndex,
+            url: window.historyFilter,
             data: {
                 'status': value
             }
-        })
-            .then(function (response) {
-                response.data.data.forEach(function (val) {
-                    $('.timeline_admin').append(`
+        }).then(function (response) {
+            response.data.data.forEach(function (val) {
+                $('.timeline_admin').append(`
                      <div class="timeline-row card p-2">
                      ${val.status ? ' <div class="d-flex justify-content-end"><div class="status_approved"></div></div>' : '<div class="d-flex justify-content-end"><div class="status_approved not"></div></div>'}
                          <div class="timeline-content">
@@ -48,12 +48,11 @@ $(document).ready(function () {
                         </div>
                     </div>
                     `)
-                })
             })
-            .catch(function (error) {
-                // handle error
-                console.error(error);
-            })
+        }).catch(function (error) {
+            // handle error
+            console.error(error);
+        })
     })
 });
 

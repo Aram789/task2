@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Str;
 
 class History extends Model
 {
@@ -14,4 +12,13 @@ class History extends Model
        'status',
        'token'
    ];
+
+    public function scopeFilterByStatus($query, $status)
+    {
+        if ($status === 'all') {
+            return $query;
+        }
+
+        return $query->where('status', $status);
+    }
 }
