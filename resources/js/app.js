@@ -8,7 +8,6 @@ $(document).ready(function () {
 
     Echo.private(`notice`)
         .listen('NoticeEvent', (e) => {
-
             $('.desktop').append(`
                 <div class="timeline-row card p-2">
                     <div class="timeline-content">
